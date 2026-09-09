@@ -1,0 +1,31 @@
+{
+  "name": "web_project_around_express",
+  "version": "1.0.0",
+  "description": "Server for Around US",
+  "homepage": "https://github.com/Drosalesa/web_project_around_express#readme",
+  "bugs": {
+    "url": "https://github.com/Drosalesa/web_project_around_express/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Drosalesa/web_project_around_express.git"
+  },
+  "author": "Drosalesa",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.20.2",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}
