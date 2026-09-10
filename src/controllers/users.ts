@@ -21,8 +21,6 @@ const getUserById: RequestHandler = async (req, res) => {
     const data = await fs.readFile(usersPath, "utf8");
     const users = JSON.parse(data);
     const user = users.find((user: UserData) => user._id === userId);
-    console.log(userId);
-    console.log(user);
     if(!user) {
         return res.status(404).json({"message": "ID de usuario no encontrado"})
     }
