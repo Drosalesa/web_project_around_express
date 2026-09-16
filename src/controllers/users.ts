@@ -1,6 +1,6 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import type { RequestHandler } from "express";
+import mongoose from "mongoose";
+import type { RequestHandler, Request, Response } from "express";
+import User from "../models/user.js";
 
 type UserData = {
     name: string;
@@ -9,22 +9,27 @@ type UserData = {
     _id: string;
 }
 
-const usersPath = path.join(import.meta.dirname, "../../data/users.json");
-
-const getUsers: RequestHandler = async (req, res) => {
-    const data = await fs.readFile(usersPath, "utf8");
-    res.json(JSON.parse(data));
+const getUsers: RequestHandler = async (req: Request, res: Response) => {
+    const users = await User.find({});
+    res.json(users);
 }
 
 const getUserById: RequestHandler = async (req, res) => {
-    const userId = req.params.userId;
-    const data = await fs.readFile(usersPath, "utf8");
-    const users = JSON.parse(data);
-    const user = users.find((user: UserData) => user._id === userId);
-    if(!user) {
-        return res.status(404).json({"message": "ID de usuario no encontrado"})
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(String(id))) {
+        return res.status(400).send({ message: "ID inválido" });
     }
-    res.json(user);
+    const user = await User.findById(id);
+    res.send(user);
 }
 
-export {getUsers, getUserById}
+const createUser: RequestHandler = async (req, res) => {
+    const user = User.create({
+      name: req.body.name,
+      about: req.body.about,
+      avatar: req.body.avatar
+    })
+    res.status(201).send(user)
+}
+
+export {getUsers, getUserById, createUser}
