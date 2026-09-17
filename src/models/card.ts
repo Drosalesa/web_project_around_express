@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const linkRegex = /^https?:\/\/(www\.)?[\w-]+\.\w+(\/[\w-\.~:\/\?%#\[\]@!$&'\(\)\*\+,;=]*)*$/i;
+const linkRegex = /^https?:\/\/(www\.)?[\w-]+(\.\w+)+(\/[\w-\.~:\/\?%#\[\]@!$&'\(\)\*\+,;=]*)*$/i;
 
 const cardSchema = new mongoose.Schema({
   name: {

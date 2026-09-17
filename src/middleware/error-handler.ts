@@ -20,13 +20,13 @@ function errorHandler(
   res.status(statusCode).send({ message });
 }
 
-/*function notFoundHandler(req: Request, res: Response, next: NextFunction): void {
+function notFoundHandler(req: Request, res: Response, next: NextFunction): void {
   res.status(404).json({
     success: false,
     data: null,
     error: `Ruta ${req.method} ${req.path} no encontrada`,
   });
   next();
-}*/
+}
 
-export { errorHandler };
+export { errorHandler, notFoundHandler };

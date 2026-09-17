@@ -1,12 +1,28 @@
-import fs from "node:fs/promises";
-import path from "node:path";
+import mongoose from "mongoose";
 import type { RequestHandler } from "express";
-
-const cardsPath = path.join(import.meta.dirname, "../../data/cards.json");
+import Card from "../models/card.js";
+import type { REPLCommand } from "repl";
 
 const getCards: RequestHandler = async (req, res) => {
-    const data = await fs.readFile(cardsPath, "utf8");
-    res.json(JSON.parse(data));
+    const cards = await Card.find({});
+    res.send(cards);
 }
 
-export {getCards}
+const createCard: RequestHandler = async (req, res) => {
+  const card = await Card.create({
+    name: req.body.name,
+    link: req.body.link,
+    owner: String(req.user?._id)
+  })
+  res.status(201).send(card);
+}
+
+const deleteCard: RequestHandler = async (req, res) => {
+  const card = await Card.findByIdAndDelete(req.body._id)
+  if (!card) {
+        return res.status(404).send({message: "Carta no encontrado"});
+    };
+    res.send(card);
+}
+
+export {getCards, createCard, deleteCard}
