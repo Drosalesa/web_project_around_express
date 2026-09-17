@@ -3,7 +3,8 @@ import express from "express";
 import router from "./routes/index.js";
 import { logRequest } from "./middleware/logger.js";
 import { checkMaintenance } from "./middleware/maintenance.js";
-import { notFound } from "./middleware/notFound.js";
+import { notFound } from "./middleware/notFoundHandler.js";
+import { errorHandler, } from "./middleware/error-handler.js";
 
 mongoose.connect("mongodb://127.0.0.1:27017/aroundb")
 .then(() => {
@@ -25,8 +26,9 @@ app.use(logRequest);
 
 app.use(router);
 
-app.use(notFound);
+app.use(errorHandler);
 
+//app.use(notFoundHandler);
 app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en el puerto ${PORT}`);
 });
