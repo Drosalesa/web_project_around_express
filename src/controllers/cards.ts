@@ -1,12 +1,16 @@
 import mongoose from "mongoose";
 import type { RequestHandler } from "express";
 import Card from "../models/card.js";
-import type { REPLCommand } from "repl";
-import { request } from "http";
 
 const getCards: RequestHandler = async (req, res) => {
     const cards = await Card.find({});
-    res.send(cards);
+    const currentUserId = req.user?._id;
+
+    const cardsWithIsLiked = cards.map((card) => ({
+      ...card.toObject(),
+      isLiked: card.likes.some((id) => id.toString() === currentUserId),
+    }));
+    res.send(cardsWithIsLiked);
 }
 
 const createCard: RequestHandler = async (req, res) => {
@@ -21,27 +25,43 @@ const createCard: RequestHandler = async (req, res) => {
 const deleteCard: RequestHandler = async (req, res) => {
   const card = await Card.findByIdAndDelete(req.body._id)
   if (!card) {
-        return res.status(404).send({message: "Carta no encontrado"});
-    };
-    res.send(card);
+    return res.status(404).send({message: "Carta no encontrada"});
+  };
+  res.send(card);
 }
 
 const likeCard: RequestHandler = async (req, res) => {
   const card = await Card.findByIdAndUpdate(
     req.params.id,
-    { $addToSet: { likes: req.user?._id } }, // agrega _id si aún no está en el array
+    { $addToSet: { likes: req.user?._id } },
     { new: true }
   );
-  res.send(card);
+  if (!card) {
+    return res.status(404).send({message: "Carta no encontrada"});
+  };
+  const currentUserId = req.user?._id;
+
+  res.send({
+    ...card.toObject(),
+    isLiked: card.likes.some((id) => id.toString() === currentUserId)
+  });
 }
 
-export const dislikeCard: RequestHandler = async (req, res) => {
+const dislikeCard: RequestHandler = async (req, res) => {
   const card = await Card.findByIdAndUpdate(
     req.params.id,
-    { $pull: { likes: req.user?._id } }, // elimina _id del array
+    { $pull: { likes: req.user?._id } },
     { new: true },
   );
-  res.send(card);
+  if (!card) {
+    return res.status(404).send({message: "Carta no encontrada"});
+  };
+  const currentUserId = req.user?._id;
+
+  res.send({
+    ...card.toObject(),
+    isLiked: card.likes.some((id) => id.toString() === currentUserId)
+  });
 };
 
-export {getCards, createCard, deleteCard}
+export {getCards, createCard, deleteCard, likeCard, dislikeCard};

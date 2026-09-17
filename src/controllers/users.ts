@@ -25,8 +25,31 @@ const createUser = async (req: Request, res: Response) => {
       about: req.body.about,
       avatar: req.body.avatar
     })
-
     res.status(201).send(user)
 }
 
-export {getUsers, getUserById, createUser}
+const getCurrentUser = async (req: Request, res: Response) => {
+    const currentUser = await User.findById(req.user?._id);
+    res.send(currentUser);
+}
+
+const updateCurrentUser = async (req: Request, res: Response) => {
+    const currentUser = await User.findByIdAndUpdate(
+        req.user?._id,
+    {
+        name: req.body.name,
+        about: req.body.about,
+    }, { new: true, runValidators: true });
+    res.send(currentUser);
+}
+
+const updateAvatar = async (req: Request, res: Response) => {
+    const currentUser = await User.findByIdAndUpdate(
+        req.user?._id,
+    {
+        avatar: req.body.avatar,
+    }, { new: true, runValidators: true });
+    res.send(currentUser);
+}
+
+export {getUsers, getUserById, createUser, getCurrentUser, updateCurrentUser, updateAvatar}
