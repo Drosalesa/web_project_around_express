@@ -35,8 +35,8 @@ app.use(logRequest);
 app.use(router);
 
 app.use(errorHandler);
-
 app.use(notFoundHandler);
+
 app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en el puerto ${PORT}`);
 });
