@@ -9,12 +9,12 @@ La información proviene de la base de datos local de MongoDB.
 
 - GET /users devuelve una lista JSON con todos los usuarios
 - POST /users crea un usuario nuevo
-- GET /users/:id devuelve un objeto JSON
+- GET /users/:id devuelve un objeto JSON con los datos del usuario con el id solicitado
 - GET /users/me devuelve los datos del usuario actual
-- PATCH /users/me Actualiza el perfil
+- PATCH /users/me Actualiza el nombre y about del perfil
 - PATCH /users/me/avatar Actualiza el avatar
 - PUT /cards/:id/likes Le da like a una tarjeta
-- DELETE /cards/:id/likest Le quita el like a una tarjeta
+- DELETE /cards/:id/likes Le quita el like a una tarjeta
 - GET /cards devuelve una lista JSON con todas las tarjetas
 - POST /cards crea una nueva tarjeta
 - DELETE /cards/:id elimina una tarjeta por su id
