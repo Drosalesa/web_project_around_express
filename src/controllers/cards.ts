@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import type { RequestHandler } from "express";
 import Card from "../models/card.js";
 
@@ -23,7 +22,7 @@ const createCard: RequestHandler = async (req, res) => {
 }
 
 const deleteCard: RequestHandler = async (req, res) => {
-  const card = await Card.findByIdAndDelete(req.body._id)
+  const card = await Card.findByIdAndDelete(req.params.id);
   if (!card) {
     return res.status(404).send({message: "Carta no encontrada"});
   };

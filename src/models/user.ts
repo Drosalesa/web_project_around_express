@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const avatarRegex = /^https?:\/\/(www\.)?[\w-]+(\.\w+)+(\/[\w-\.~:\/\?%#\[\]@!$&'\(\)\*\+,;=]*)*$/i;
+const avatarRegex = /^https?:\/\/(www\.)?[\w-]+(\.\w+)+(\/[\w-.~:/?%#[\]@!$&'()*+,;=]*)*$/i;
 
 const userSchema = new mongoose.Schema({
   name: {

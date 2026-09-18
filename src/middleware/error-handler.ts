@@ -4,7 +4,7 @@ function errorHandler(
   err: Error & { statusCode?: number },
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void {
   console.error(err);
 

@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import type { RequestHandler, Request, Response } from "express";
 import User from "../models/user.js";
 
@@ -48,7 +47,7 @@ const updateAvatar = async (req: Request, res: Response) => {
         req.user?._id,
     {
         avatar: req.body.avatar,
-    }, { new: true, runValidators: true });
+    }, { returnDocument: "after", runValidators: true });
     res.send(currentUser);
 }
 

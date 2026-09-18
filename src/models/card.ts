@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const linkRegex = /^https?:\/\/(www\.)?[\w-]+(\.\w+)+(\/[\w-\.~:\/\?%#\[\]@!$&'\(\)\*\+,;=]*)*$/i;
+const linkRegex = /^https?:\/\/(www\.)?[\w-]+(\.\w+)+(\/[\w-.~:/?%#[\]@!$&'()*+,;=]*)*$/i;
 
 const cardSchema = new mongoose.Schema({
   name: {
@@ -11,6 +11,7 @@ const cardSchema = new mongoose.Schema({
   },
   link: {
     type: String,
+    required: true,
     validate: {
       validator: (value: string) => linkRegex.test(value),
       message: "Direccion de imagen no valida"
